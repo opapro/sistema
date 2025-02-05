@@ -37,7 +37,6 @@ def profile(request):
     return render(request, 'users/profile.html')
 
 @csrf_exempt
-@login_required()
 def chatbot(request):
     if request.method == "POST":
         try:
