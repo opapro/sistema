@@ -1,0 +1,10 @@
+{% extends 'users/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <div class="container">
+        <h2 style="color: blueviolet;">Login: {{user.username}}</h2>
+    <h2 style="color: blueviolet;">Email: {{user.email}}</h2>
+    </div>
+{% endblock %}

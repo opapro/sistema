@@ -1,0 +1,55 @@
+{% extends 'users/base.html' %}
+
+{% load static %}
+{% block content %}
+
+<script>
+    async function sendMessage() {
+        let userMessage = document.getElementById("message").value;
+
+        console.log("Enviando mensagem:", userMessage);
+    
+        let response = await fetch("/chatbot/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: userMessage })
+        });
+    
+        if (!response.ok) {
+            console.error("Erro na requisição:", response.status);
+            return;
+        }
+    
+        let data = await response.json();
+        console.log("Resposta recebida:", data);
+    
+        let chatbox = document.getElementById("chatbox");
+    
+        // Adiciona as mensagens de forma segura
+        let userMessageElem = document.createElement("p");
+        userMessageElem.textContent = `Pergunta: ${userMessage}`;
+        chatbox.appendChild(userMessageElem);
+    
+        let botMessageElem = document.createElement("p");
+        botMessageElem.textContent = `Resposta: ${data.response || "Erro ao obter resposta"}`;
+        chatbox.appendChild(botMessageElem);
+    
+        // Rolagem automática para o fundo
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+</script>
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<body id="bg" style="background-color: rgb(14, 12, 12);">
+ <h1 style="color: blueviolet; margin: 30px 500px;">Açaí AI [ChatBot]</h1>
+ <div id="chatbox" style="color: rgb(100, 4, 100); margin: 60px; max-height: 400px; overflow-y: auto; background-color: aliceblue; font: 1.2em sans-serif;"></div>
+ <input type="text" id="message" placeholder="Digite sua mensagem" style="width: 800px; margin: 80px 170px;">
+ <div class="form-group" id="signup-button" style="margin: -10px -170px; height: 35px; width: 90px;">
+     <a class="btn" onclick="sendMessage()" style="margin-top: -16px; margin: -20px;">Enviar</a>
+ </div>
+ <div class="form-group" id="signup-button" style="margin: -10px 170px; height: 35px; width: 90px;">
+     <a class="btn" href="{% url 'chatbot' %}" style="margin-top: -16px; margin: -19px;">Limpar</a>
+ </div>
+ <h4 style="color: blueviolet; margin: 20px; margin-top: -115px;">Mensagem: </h4>
+</body>
+
+{% endblock content %}

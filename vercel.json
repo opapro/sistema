@@ -1,0 +1,22 @@
+{
+    "builds": [
+        {
+            "src": "sistema/wsgi.py",
+
+            "use": "@vercel/python",
+
+            "config": {
+                "maxLamdaSize": "15mb",
+
+                "runtime": "pyhton 3.9.9"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "sistema/wsgi.py"
+
+        }
+    ]
+}
